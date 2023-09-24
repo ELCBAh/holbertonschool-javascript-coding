@@ -12,7 +12,7 @@ request(url, function (err, _response, body) {
       if (user.completed) {
         acc[user.userId] = (acc[user.userId] || 0) + 1;
       }
-    return acc;
+      return acc;
     }, {});
     console.log(completed);
   }
