@@ -1,3 +1,4 @@
+const { stdout } = require('process');
 const readline = require('readline');
 
 const rl = readline.createInterface({
@@ -6,10 +7,7 @@ const rl = readline.createInterface({
 });
 
 rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
-  console.log(`Your name is: ${name}\n`);
-  rl.close();
-});
-
-process.on('exit', () => {
+  stdout.write('Your name is: ' + name + '\r');
   console.log('This important software is now closing');
+  process.exit(0);
 });
