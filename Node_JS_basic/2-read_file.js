@@ -22,7 +22,7 @@ function countStudents(path) {
   }
   console.log(`Number of students: ${students.length}`);
   for (const field in studentCounts) {
-    console.log(`Number of students in ${field}: ${studentCounts[field]}. List: ${students.filter((student) => student.split(', ')[field] === 'yes').map((student) => student.split(', ')[0]).join(', ')}`);
+    console.log(`Number of students in ${field}: ${studentCounts[field]}. List: ${students.filter((student) => student.split(', ')[field.indexOf('field')] === 'yes').map((student) => student.split(', ')[0]).join(', ')}`);
   }
 };
 
