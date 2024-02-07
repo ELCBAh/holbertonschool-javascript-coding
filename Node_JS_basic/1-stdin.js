@@ -8,6 +8,10 @@ const rl = readline.createInterface({
 
 rl.question('Welcome to Holberton School, what is your name?\n', (name) => {
   stdout.write('Your name is: ' + name + '\r');
+  rl.close();
+});
+
+rl.on('close', () => {
   console.log('This important software is now closing');
   process.exit(0);
 });
