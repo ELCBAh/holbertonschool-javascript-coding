@@ -2,25 +2,32 @@ const readDatabase = require('../utils');
 
 class StudentsController {
   static getAllStudents(request, response) {
-    readDatabase(process.argv[2])
-      .then((data) => {
-        const message = 'This is the list of our students\n';
-        response.status(200).send(message + data.join('\n'));
-      })
-      .catch((err) => {
-        response.status(500).send(err.message);
+    response.write('This is the list of our students\n');
+    readDatabase('./database.csv').then((data) => {
+      response.write(`Number of students in CS: ${data['CS'].length}. List: ${data['CS'].join(', ')}\n`);
+      response.write(`Number of students in SWE: ${data['SWE'].length}. List: ${data['SWE'].join(', ')}\n`);
+      response.end();
+      }).catch((err) => res.write(err.message))
+        .finally(() => {
+          res.end();
       });
   }
   static getAllStudentsByMajor(request, response) {
     const { major } = request.params;
+    if (major !== 'CS' && major !== 'SWE') {
+      response.statusCode = 500;
+      response.write('Major parameter must be CS or SWE\n');
+      response.end();
+      return;
+    }
     readDatabase(process.argv[2])
       .then((data) => {
         const message = `List: ${data.filter((student) => student.includes(major)).join(', ')}`;
-        response.status(200).send(message);
-      })
-      .catch((err) => {
-        response.status(500).send(err.message);
-      });
+        readDatabase('./database.csv').then((data) => {
+          response.write(`List: ${data[major].join(', ')}\n`);
+          response.end();
+      }).catch((err) => response.send(err.message));
+   });
   }
 }
 
