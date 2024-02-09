@@ -20,14 +20,10 @@ class StudentsController {
       response.end();
       return;
     }
-    readDatabase(process.argv[2])
-      .then((data) => {
-        const message = `List: ${data.filter((student) => student.includes(major)).join(', ')}`;
-        readDatabase('./database.csv').then((data) => {
-          response.write(`List: ${data[major].join(', ')}\n`);
-          response.end();
-      }).catch((err) => response.send(err.message));
-   });
+    readDatabase('./database.csv').then((data) => {
+      response.write(`List: ${data[major].join(', ')}\n`);
+      response.end();
+    }).catch((err) => response.send(err.message));
   }
 }
 
